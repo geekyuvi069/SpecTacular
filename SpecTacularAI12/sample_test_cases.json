@@ -1,0 +1,1361 @@
+[
+  {
+    "id": "TC_001",
+    "title": "User Registration with Email Verification",
+    "description": "Verify that new users can register with valid email addresses and receive verification emails",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_001",
+    "requirement_text": "The system shall allow users to register new accounts with email verification",
+    "preconditions": [
+      "System is accessible and registration page is available",
+      "Valid email address is available for testing",
+      "Email server is configured and operational"
+    ],
+    "test_steps": [
+      "1. Navigate to user registration page",
+      "2. Enter valid user information (name, email, password)",
+      "3. Click Register button",
+      "4. Check for registration success message",
+      "5. Check email inbox for verification email",
+      "6. Click verification link in email",
+      "7. Verify account activation"
+    ],
+    "expected_result": "User account is created successfully and verification email is received within 5 minutes. Account is activated after clicking verification link.",
+    "status": "Active",
+    "created_date": "2025-01-15",
+    "category": "Authentication"
+  },
+  {
+    "id": "TC_002",
+    "title": "User Login with Valid Credentials",
+    "description": "Test user authentication with correct username and password",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_002",
+    "requirement_text": "The system shall authenticate users using secure login credentials",
+    "preconditions": [
+      "User account exists and is verified",
+      "Login page is accessible",
+      "Valid credentials are available"
+    ],
+    "test_steps": [
+      "1. Navigate to login page",
+      "2. Enter valid username/email",
+      "3. Enter correct password",
+      "4. Click login button",
+      "5. Verify redirect to dashboard or homepage",
+      "6. Check for user session establishment"
+    ],
+    "expected_result": "User is successfully authenticated and redirected to appropriate page with active session",
+    "status": "Active",
+    "created_date": "2025-01-15",
+    "category": "Authentication"
+  },
+  {
+    "id": "TC_003",
+    "title": "Password Reset Functionality",
+    "description": "Verify password reset process via email link",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_003",
+    "requirement_text": "The system shall support password reset functionality via email",
+    "preconditions": [
+      "User account exists",
+      "Email system is functional",
+      "Password reset page is accessible"
+    ],
+    "test_steps": [
+      "1. Navigate to login page",
+      "2. Click 'Forgot Password' link",
+      "3. Enter registered email address",
+      "4. Submit password reset request",
+      "5. Check email for reset link",
+      "6. Click reset link within 24 hours",
+      "7. Enter new password",
+      "8. Confirm password change",
+      "9. Login with new password"
+    ],
+    "expected_result": "Password reset email is received, link works within 24 hours, password is successfully changed, and user can login with new password",
+    "status": "Active",
+    "created_date": "2025-01-15",
+    "category": "Authentication"
+  },
+  {
+    "id": "TC_004",
+    "title": "Role-Based Access Control",
+    "description": "Test that different user roles have appropriate access permissions",
+    "type": "Security Test",
+    "priority": "High",
+    "requirement_id": "REQ_004",
+    "requirement_text": "The system shall implement role-based access control for administrators, merchants, and customers",
+    "preconditions": [
+      "Users with different roles exist (admin, merchant, customer)",
+      "System features have role-based restrictions",
+      "Test environment is set up"
+    ],
+    "test_steps": [
+      "1. Login as customer user",
+      "2. Attempt to access admin-only features",
+      "3. Verify access is denied",
+      "4. Login as merchant user",
+      "5. Verify merchant-specific features are accessible",
+      "6. Login as admin user",
+      "7. Verify all features are accessible"
+    ],
+    "expected_result": "Each role has access only to authorized features, unauthorized access attempts are blocked with appropriate error messages",
+    "status": "Active",
+    "created_date": "2025-01-15",
+    "category": "Security"
+  },
+  {
+    "id": "TC_005",
+    "title": "Session Timeout Security",
+    "description": "Verify user sessions expire after 30 minutes of inactivity",
+    "type": "Security Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_005",
+    "requirement_text": "The system shall maintain user session security with automatic timeout",
+    "preconditions": [
+      "User is logged into the system",
+      "Session timeout is configured to 30 minutes",
+      "System time can be monitored"
+    ],
+    "test_steps": [
+      "1. Login to the system",
+      "2. Perform some actions to establish session",
+      "3. Remain inactive for 30 minutes",
+      "4. Attempt to perform an action requiring authentication",
+      "5. Verify session timeout message",
+      "6. Verify redirect to login page"
+    ],
+    "expected_result": "User session expires after 30 minutes of inactivity, user is prompted to login again",
+    "status": "Active",
+    "created_date": "2025-01-15",
+    "category": "Security"
+  },
+  {
+    "id": "TC_006",
+    "title": "Product Addition by Merchant",
+    "description": "Test merchant's ability to add new products with complete information",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_006",
+    "requirement_text": "The system shall allow merchants to add new products with detailed information",
+    "preconditions": [
+      "Merchant account is active and logged in",
+      "Product management interface is accessible",
+      "Product images are available for upload"
+    ],
+    "test_steps": [
+      "1. Login as merchant user",
+      "2. Navigate to product management section",
+      "3. Click 'Add New Product' button",
+      "4. Fill in product name and description",
+      "5. Set product price and category",
+      "6. Upload product images",
+      "7. Set inventory count and specifications",
+      "8. Save product information",
+      "9. Verify product appears in catalog"
+    ],
+    "expected_result": "Product is successfully added with all information saved correctly and appears in the product catalog",
+    "status": "Active",
+    "created_date": "2025-01-16",
+    "category": "Product Management"
+  },
+  {
+    "id": "TC_007",
+    "title": "Hierarchical Product Categorization",
+    "description": "Verify products can be organized in multi-level categories",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_007",
+    "requirement_text": "The system shall support product categorization with hierarchical structures",
+    "preconditions": [
+      "Category management system is available",
+      "Products exist in the system",
+      "Multiple category levels are configured"
+    ],
+    "test_steps": [
+      "1. Navigate to category management",
+      "2. Create parent category (e.g., Electronics)",
+      "3. Create subcategory (e.g., Smartphones)",
+      "4. Create sub-subcategory (e.g., iPhone)",
+      "5. Assign product to multiple categories",
+      "6. Verify category hierarchy display",
+      "7. Test navigation through category levels"
+    ],
+    "expected_result": "Categories are organized hierarchically, products can belong to multiple categories, navigation works correctly",
+    "status": "Active",
+    "created_date": "2025-01-16",
+    "category": "Product Management"
+  },
+  {
+    "id": "TC_008",
+    "title": "Advanced Product Search",
+    "description": "Test comprehensive product search with filters and sorting",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_008",
+    "requirement_text": "The system shall provide advanced product search functionality",
+    "preconditions": [
+      "Multiple products exist in different categories",
+      "Search interface is accessible",
+      "Products have varied attributes (price, brand, etc.)"
+    ],
+    "test_steps": [
+      "1. Navigate to product search page",
+      "2. Enter keyword search term",
+      "3. Apply category filter",
+      "4. Set price range filter",
+      "5. Apply brand filter",
+      "6. Sort results by price (low to high)",
+      "7. Sort results by rating",
+      "8. Verify search results accuracy"
+    ],
+    "expected_result": "Search returns relevant products, filters work correctly, sorting functions properly, results match search criteria",
+    "status": "Active",
+    "created_date": "2025-01-16",
+    "category": "Product Management"
+  },
+  {
+    "id": "TC_009",
+    "title": "Real-time Inventory Display",
+    "description": "Verify product availability is shown in real-time",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_009",
+    "requirement_text": "The system shall display product availability in real-time",
+    "preconditions": [
+      "Products with varying inventory levels exist",
+      "Inventory management system is functional",
+      "Real-time updates are configured"
+    ],
+    "test_steps": [
+      "1. View product with available inventory",
+      "2. Note current stock level display",
+      "3. Place order for some quantity",
+      "4. Verify inventory decreases immediately",
+      "5. Add stock through admin interface",
+      "6. Verify inventory increases on product page",
+      "7. Test with out-of-stock products"
+    ],
+    "expected_result": "Inventory levels update immediately when orders are placed or stock is modified, out-of-stock status is clearly displayed",
+    "status": "Active",
+    "created_date": "2025-01-16",
+    "category": "Inventory"
+  },
+  {
+    "id": "TC_010",
+    "title": "Customer Product Reviews and Ratings",
+    "description": "Test customer ability to rate and review products",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_010",
+    "requirement_text": "The system shall support product reviews and ratings from customers",
+    "preconditions": [
+      "Customer account exists and is logged in",
+      "Product page is accessible",
+      "Customer has purchased the product (if required)"
+    ],
+    "test_steps": [
+      "1. Login as customer",
+      "2. Navigate to product page",
+      "3. Click on 'Write Review' button",
+      "4. Select star rating (1-5 stars)",
+      "5. Write detailed review text",
+      "6. Submit review",
+      "7. Verify review appears on product page",
+      "8. Check if review affects overall rating"
+    ],
+    "expected_result": "Customer can successfully submit review with rating, review appears on product page, overall product rating is updated",
+    "status": "Active",
+    "created_date": "2025-01-16",
+    "category": "Customer Experience"
+  },
+  {
+    "id": "TC_011",
+    "title": "Persistent Shopping Cart",
+    "description": "Verify shopping cart contents persist across sessions",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_011",
+    "requirement_text": "The system shall provide persistent shopping cart functionality",
+    "preconditions": [
+      "User account exists",
+      "Products are available for purchase",
+      "Shopping cart functionality is enabled"
+    ],
+    "test_steps": [
+      "1. Login to user account",
+      "2. Add products to shopping cart",
+      "3. Log out of the system",
+      "4. Close browser completely",
+      "5. Reopen browser and login",
+      "6. Navigate to shopping cart",
+      "7. Verify all items are still present"
+    ],
+    "expected_result": "Shopping cart contents are preserved across user sessions and browser closures",
+    "status": "Active",
+    "created_date": "2025-01-17",
+    "category": "Shopping Cart"
+  },
+  {
+    "id": "TC_012",
+    "title": "Accurate Total Calculation",
+    "description": "Test calculation of order totals including taxes and shipping",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_012",
+    "requirement_text": "The system shall calculate accurate totals including taxes and shipping",
+    "preconditions": [
+      "Products with known prices are in cart",
+      "Tax rates are configured",
+      "Shipping costs are defined"
+    ],
+    "test_steps": [
+      "1. Add products to cart with known prices",
+      "2. Proceed to checkout",
+      "3. Enter shipping address",
+      "4. Select shipping method",
+      "5. Verify subtotal calculation",
+      "6. Verify tax calculation accuracy",
+      "7. Verify shipping cost addition",
+      "8. Verify final total accuracy to 2 decimal places"
+    ],
+    "expected_result": "All calculations are mathematically correct to two decimal places, including subtotal, taxes, shipping, and final total",
+    "status": "Active",
+    "created_date": "2025-01-17",
+    "category": "Checkout"
+  },
+  {
+    "id": "TC_013",
+    "title": "Multiple Shipping Options",
+    "description": "Test availability and cost calculation of different shipping methods",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_013",
+    "requirement_text": "The system shall support multiple shipping options with cost calculation",
+    "preconditions": [
+      "Multiple shipping methods are configured",
+      "Products with weight/dimensions are in cart",
+      "Shipping destinations are set up"
+    ],
+    "test_steps": [
+      "1. Add products to shopping cart",
+      "2. Proceed to checkout",
+      "3. Enter delivery address",
+      "4. View available shipping options",
+      "5. Compare shipping costs and delivery times",
+      "6. Select expedited shipping",
+      "7. Verify cost calculation changes",
+      "8. Select standard shipping and verify"
+    ],
+    "expected_result": "Multiple shipping options are displayed with accurate costs based on weight, dimensions, destination, and delivery speed",
+    "status": "Active",
+    "created_date": "2025-01-17",
+    "category": "Shipping"
+  },
+  {
+    "id": "TC_014",
+    "title": "Stock Validation During Checkout",
+    "description": "Verify system checks product availability during checkout process",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_014",
+    "requirement_text": "The system shall validate product availability during checkout",
+    "preconditions": [
+      "Products with limited stock are available",
+      "Multiple users can access the system",
+      "Checkout process is functional"
+    ],
+    "test_steps": [
+      "1. Add product with limited stock to cart",
+      "2. Begin checkout process",
+      "3. Simultaneously have another user purchase same item",
+      "4. Continue with checkout",
+      "5. Verify stock validation occurs",
+      "6. Test with out-of-stock scenarios",
+      "7. Verify appropriate error messages"
+    ],
+    "expected_result": "System verifies stock levels during checkout, reserves items during process, prevents overselling with clear error messages",
+    "status": "Active",
+    "created_date": "2025-01-17",
+    "category": "Inventory"
+  },
+  {
+    "id": "TC_015",
+    "title": "Guest Checkout Process",
+    "description": "Test checkout functionality without account creation",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_015",
+    "requirement_text": "The system shall support guest checkout without account creation",
+    "preconditions": [
+      "Guest checkout option is enabled",
+      "Products are available for purchase",
+      "Payment processing is functional"
+    ],
+    "test_steps": [
+      "1. Add products to cart without logging in",
+      "2. Proceed to checkout",
+      "3. Select 'Guest Checkout' option",
+      "4. Enter required information (name, email, address)",
+      "5. Select shipping method",
+      "6. Enter payment information",
+      "7. Complete purchase",
+      "8. Verify order confirmation"
+    ],
+    "expected_result": "Guest users can complete purchases with minimal required information without creating an account",
+    "status": "Active",
+    "created_date": "2025-01-17",
+    "category": "Checkout"
+  },
+  {
+    "id": "TC_016",
+    "title": "Discount Code Application",
+    "description": "Test application of coupon codes and promotional offers",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_018",
+    "requirement_text": "The system shall apply discount codes and promotional offers",
+    "preconditions": [
+      "Valid discount codes are created",
+      "Products are in shopping cart",
+      "Promotion rules are configured"
+    ],
+    "test_steps": [
+      "1. Add products to shopping cart",
+      "2. Proceed to checkout",
+      "3. Enter valid discount code",
+      "4. Click 'Apply' button",
+      "5. Verify discount is applied to total",
+      "6. Test with expired discount code",
+      "7. Test with invalid discount code",
+      "8. Verify appropriate error messages"
+    ],
+    "expected_result": "Valid coupon codes are applied correctly with discount reflected in total, invalid/expired codes show appropriate error messages",
+    "status": "Active",
+    "created_date": "2025-01-18",
+    "category": "Promotions"
+  },
+  {
+    "id": "TC_017",
+    "title": "Secure Payment Gateway Integration",
+    "description": "Test payment processing with major credit cards",
+    "type": "Security Test",
+    "priority": "High",
+    "requirement_id": "REQ_019",
+    "requirement_text": "The system shall integrate with secure payment gateways",
+    "preconditions": [
+      "Payment gateway is configured",
+      "Test credit card numbers are available",
+      "SSL/TLS encryption is enabled"
+    ],
+    "test_steps": [
+      "1. Proceed to payment page",
+      "2. Verify HTTPS connection",
+      "3. Enter test credit card information",
+      "4. Submit payment",
+      "5. Verify payment processing",
+      "6. Check payment confirmation",
+      "7. Verify PCI compliance indicators"
+    ],
+    "expected_result": "Payment processing complies with PCI DSS standards, supports major credit cards, and processes securely over encrypted connections",
+    "status": "Active",
+    "created_date": "2025-01-18",
+    "category": "Payment"
+  },
+  {
+    "id": "TC_018",
+    "title": "Multiple Payment Methods Support",
+    "description": "Test various payment options including PayPal and digital wallets",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_020",
+    "requirement_text": "The system shall support multiple payment methods",
+    "preconditions": [
+      "Multiple payment methods are configured",
+      "Test accounts for each method exist",
+      "Payment interfaces are functional"
+    ],
+    "test_steps": [
+      "1. Proceed to payment selection",
+      "2. Verify available payment options",
+      "3. Test credit card payment",
+      "4. Test PayPal payment process",
+      "5. Test digital wallet payment",
+      "6. Verify each method processes correctly",
+      "7. Check payment confirmations"
+    ],
+    "expected_result": "Multiple payment methods are clearly displayed and securely processed, each method works correctly with proper confirmations",
+    "status": "Active",
+    "created_date": "2025-01-18",
+    "category": "Payment"
+  },
+  {
+    "id": "TC_019",
+    "title": "Payment Failure Handling",
+    "description": "Test system response to failed payment attempts",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_021",
+    "requirement_text": "The system shall handle payment failures with appropriate error messages",
+    "preconditions": [
+      "Payment system can simulate failures",
+      "Alternative payment methods are available",
+      "Error handling is implemented"
+    ],
+    "test_steps": [
+      "1. Attempt payment with declined card",
+      "2. Verify clear error message display",
+      "3. Check alternative payment options",
+      "4. Test insufficient funds scenario",
+      "5. Test expired card scenario",
+      "6. Verify cart contents are preserved",
+      "7. Test successful payment after failure"
+    ],
+    "expected_result": "Failed payments provide clear explanations and alternative payment options, cart contents are preserved for retry",
+    "status": "Active",
+    "created_date": "2025-01-18",
+    "category": "Payment"
+  },
+  {
+    "id": "TC_020",
+    "title": "Payment Confirmation and Receipts",
+    "description": "Verify payment confirmations and receipt generation",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_022",
+    "requirement_text": "The system shall generate payment confirmations and receipts",
+    "preconditions": [
+      "Payment processing works correctly",
+      "Email system is configured",
+      "Receipt templates are set up"
+    ],
+    "test_steps": [
+      "1. Complete successful payment",
+      "2. Verify immediate payment confirmation",
+      "3. Check email inbox for receipt",
+      "4. Verify receipt contains order details",
+      "5. Check receipt in user account",
+      "6. Verify receipt formatting and accuracy",
+      "7. Test receipt download/print functionality"
+    ],
+    "expected_result": "Payment receipts are emailed immediately and stored in user accounts with complete order details",
+    "status": "Active",
+    "created_date": "2025-01-18",
+    "category": "Payment"
+  },
+  {
+    "id": "TC_021",
+    "title": "Unique Order Number Generation",
+    "description": "Test generation of unique, sequential order numbers",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_024",
+    "requirement_text": "The system shall generate unique order numbers for all transactions",
+    "preconditions": [
+      "Order processing system is functional",
+      "Multiple orders can be placed",
+      "Order numbering system is configured"
+    ],
+    "test_steps": [
+      "1. Place first order and note order number",
+      "2. Place second order immediately",
+      "3. Verify order numbers are sequential",
+      "4. Check date-based prefix inclusion",
+      "5. Place multiple concurrent orders",
+      "6. Verify all order numbers are unique",
+      "7. Check order number format consistency"
+    ],
+    "expected_result": "Order numbers are sequential, unique, and include date-based prefixes with consistent formatting",
+    "status": "Active",
+    "created_date": "2025-01-19",
+    "category": "Order Management"
+  },
+  {
+    "id": "TC_022",
+    "title": "Order Status Tracking",
+    "description": "Test order status updates throughout fulfillment process",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_025",
+    "requirement_text": "The system shall track order status throughout fulfillment",
+    "preconditions": [
+      "Order management system is functional",
+      "Status update workflow is configured",
+      "Order exists in system"
+    ],
+    "test_steps": [
+      "1. Place new order (status: pending)",
+      "2. Admin confirms order (status: confirmed)",
+      "3. Order moves to processing",
+      "4. Order is shipped (status: shipped)",
+      "5. Order is delivered (status: delivered)",
+      "6. Test order cancellation status",
+      "7. Verify status history tracking"
+    ],
+    "expected_result": "Order statuses include pending, confirmed, processing, shipped, delivered, and cancelled with accurate tracking",
+    "status": "Active",
+    "created_date": "2025-01-19",
+    "category": "Order Management"
+  },
+  {
+    "id": "TC_023",
+    "title": "Automated Order Confirmation Emails",
+    "description": "Test automatic email notifications for order confirmation",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_026",
+    "requirement_text": "The system shall send automated order confirmation emails",
+    "preconditions": [
+      "Email system is configured",
+      "Order processing is functional",
+      "Email templates are set up"
+    ],
+    "test_steps": [
+      "1. Place order with valid email address",
+      "2. Complete checkout process",
+      "3. Check email inbox immediately",
+      "4. Verify confirmation email received",
+      "5. Check email contains order details",
+      "6. Verify shipping information included",
+      "7. Check for tracking number if applicable"
+    ],
+    "expected_result": "Confirmation emails include order details, shipping information, and tracking numbers when available",
+    "status": "Active",
+    "created_date": "2025-01-19",
+    "category": "Communication"
+  },
+  {
+    "id": "TC_024",
+    "title": "Customer Order History",
+    "description": "Test customer access to past order information",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_027",
+    "requirement_text": "The system shall provide order history for customers",
+    "preconditions": [
+      "Customer account exists with past orders",
+      "Order history interface is available",
+      "Customer is logged in"
+    ],
+    "test_steps": [
+      "1. Login to customer account",
+      "2. Navigate to order history section",
+      "3. Verify list of past orders",
+      "4. Click on specific order details",
+      "5. Verify detailed order information",
+      "6. Test reorder functionality",
+      "7. Check order status updates"
+    ],
+    "expected_result": "Customers can view all past orders with detailed information and reorder functionality",
+    "status": "Active",
+    "created_date": "2025-01-19",
+    "category": "Customer Service"
+  },
+  {
+    "id": "TC_025",
+    "title": "Order Cancellation Process",
+    "description": "Test order cancellation within specified timeframes",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_028",
+    "requirement_text": "The system shall support order cancellation within specified timeframes",
+    "preconditions": [
+      "Recent order exists that can be cancelled",
+      "Cancellation timeframe is configured",
+      "Refund processing is set up"
+    ],
+    "test_steps": [
+      "1. Place new order",
+      "2. Navigate to order details",
+      "3. Click cancel order button",
+      "4. Confirm cancellation",
+      "5. Verify order status changes to cancelled",
+      "6. Check automatic refund processing",
+      "7. Test cancellation after shipping"
+    ],
+    "expected_result": "Orders are cancellable before shipping with automatic refund processing, cancellation blocked after shipping",
+    "status": "Active",
+    "created_date": "2025-01-19",
+    "category": "Order Management"
+  },
+  {
+    "id": "TC_026",
+    "title": "Shipping Carrier Integration",
+    "description": "Test integration with shipping carriers for tracking",
+    "type": "Integration Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_029",
+    "requirement_text": "The system shall integrate with shipping carriers for tracking",
+    "preconditions": [
+      "Shipping carrier APIs are configured",
+      "Orders with tracking numbers exist",
+      "Carrier integration is functional"
+    ],
+    "test_steps": [
+      "1. Create order with shipping",
+      "2. Generate shipping label",
+      "3. Obtain tracking number",
+      "4. Update order with tracking info",
+      "5. Check real-time tracking display",
+      "6. Verify automatic status updates",
+      "7. Test tracking link functionality"
+    ],
+    "expected_result": "Real-time tracking information is displayed to customers and updated automatically from carriers",
+    "status": "Active",
+    "created_date": "2025-01-20",
+    "category": "Shipping"
+  },
+  {
+    "id": "TC_027",
+    "title": "Real-time Inventory Updates",
+    "description": "Test immediate inventory level updates across all products",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_030",
+    "requirement_text": "The system shall maintain accurate inventory levels across all products",
+    "preconditions": [
+      "Inventory management system is active",
+      "Products with inventory exist",
+      "Real-time updates are enabled"
+    ],
+    "test_steps": [
+      "1. Check product inventory level",
+      "2. Place order for product quantity",
+      "3. Verify immediate inventory decrease",
+      "4. Cancel order",
+      "5. Verify inventory restoration",
+      "6. Update inventory via admin",
+      "7. Verify front-end reflects changes"
+    ],
+    "expected_result": "Stock levels update in real-time and prevent overselling scenarios across all system touchpoints",
+    "status": "Active",
+    "created_date": "2025-01-20",
+    "category": "Inventory"
+  },
+  {
+    "id": "TC_028",
+    "title": "Low Stock Alert System",
+    "description": "Test automatic notifications for low inventory levels",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_031",
+    "requirement_text": "The system shall generate low stock alerts for merchants",
+    "preconditions": [
+      "Low stock thresholds are configured",
+      "Notification system is functional",
+      "Products with varying stock levels exist"
+    ],
+    "test_steps": [
+      "1. Set low stock threshold for product",
+      "2. Reduce inventory to threshold level",
+      "3. Verify automatic alert generation",
+      "4. Check alert delivery to merchant",
+      "5. Test alert for multiple products",
+      "6. Verify alert stops when restocked",
+      "7. Test threshold configuration changes"
+    ],
+    "expected_result": "Automatic notifications are sent when inventory falls below configurable thresholds",
+    "status": "Active",
+    "created_date": "2025-01-20",
+    "category": "Inventory"
+  },
+  {
+    "id": "TC_029",
+    "title": "Inventory Reservation During Checkout",
+    "description": "Test temporary product reservation during payment process",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_032",
+    "requirement_text": "The system shall support inventory reservations during checkout",
+    "preconditions": [
+      "Checkout process with payment is functional",
+      "Limited inventory products exist",
+      "Reservation timeout is configured"
+    ],
+    "test_steps": [
+      "1. Add limited stock product to cart",
+      "2. Begin checkout process",
+      "3. Verify product is reserved",
+      "4. Have another user try to purchase same item",
+      "5. Verify reservation prevents overselling",
+      "6. Complete or abandon checkout",
+      "7. Verify reservation is released appropriately"
+    ],
+    "expected_result": "Products are temporarily reserved to prevent overselling during payment processing",
+    "status": "Active",
+    "created_date": "2025-01-20",
+    "category": "Inventory"
+  },
+  {
+    "id": "TC_030",
+    "title": "Inventory Movement Audit Trail",
+    "description": "Test tracking and logging of all inventory changes",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_033",
+    "requirement_text": "The system shall track inventory movements and provide audit trails",
+    "preconditions": [
+      "Audit logging is enabled",
+      "Inventory operations are trackable",
+      "User identification is available"
+    ],
+    "test_steps": [
+      "1. Perform inventory addition",
+      "2. Check audit log entry",
+      "3. Perform inventory reduction",
+      "4. Verify log includes timestamp and user",
+      "5. Process order affecting inventory",
+      "6. Check reason codes in logs",
+      "7. Generate inventory audit report"
+    ],
+    "expected_result": "All stock changes are logged with timestamps, reasons, and user information for complete audit trail",
+    "status": "Active",
+    "created_date": "2025-01-20",
+    "category": "Inventory"
+  },
+  {
+    "id": "TC_031",
+    "title": "Customer Support Ticket System",
+    "description": "Test customer ability to create and track support tickets",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_035",
+    "requirement_text": "The system shall provide customer support ticket functionality",
+    "preconditions": [
+      "Support ticket system is configured",
+      "Customer account exists",
+      "Support categories are set up"
+    ],
+    "test_steps": [
+      "1. Login as customer",
+      "2. Navigate to support section",
+      "3. Create new support ticket",
+      "4. Fill in issue details and category",
+      "5. Submit ticket",
+      "6. Verify ticket number generation",
+      "7. Track ticket status updates",
+      "8. Test ticket communication"
+    ],
+    "expected_result": "Customers can create, track, and communicate through support tickets with unique ticket numbers",
+    "status": "Active",
+    "created_date": "2025-01-21",
+    "category": "Customer Service"
+  },
+  {
+    "id": "TC_032",
+    "title": "Live Chat Functionality",
+    "description": "Test real-time customer assistance through live chat",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_036",
+    "requirement_text": "The system shall support live chat functionality for real-time assistance",
+    "preconditions": [
+      "Live chat system is operational",
+      "Support agents are available",
+      "Chat interface is accessible"
+    ],
+    "test_steps": [
+      "1. Access live chat widget",
+      "2. Initiate chat during business hours",
+      "3. Send test message",
+      "4. Verify agent response",
+      "5. Test automated responses",
+      "6. Test chat outside business hours",
+      "7. Verify chat history saving"
+    ],
+    "expected_result": "Live chat is available during business hours with automated responses for common questions",
+    "status": "Active",
+    "created_date": "2025-01-21",
+    "category": "Customer Service"
+  },
+  {
+    "id": "TC_033",
+    "title": "FAQ Search Functionality",
+    "description": "Test searchable FAQ system with categorization",
+    "type": "Functional Test",
+    "priority": "Low",
+    "requirement_id": "REQ_037",
+    "requirement_text": "The system shall maintain comprehensive FAQ sections",
+    "preconditions": [
+      "FAQ content is populated",
+      "Search functionality is implemented",
+      "Categories are organized"
+    ],
+    "test_steps": [
+      "1. Navigate to FAQ section",
+      "2. Browse FAQ categories",
+      "3. Use search function with keywords",
+      "4. Verify relevant results display",
+      "5. Test search with common questions",
+      "6. Check FAQ content quality",
+      "7. Verify regular content updates"
+    ],
+    "expected_result": "FAQs are searchable, categorized, and regularly updated with common customer questions",
+    "status": "Active",
+    "created_date": "2025-01-21",
+    "category": "Customer Service"
+  },
+  {
+    "id": "TC_034",
+    "title": "Return Merchandise Authorization",
+    "description": "Test customer-initiated return process with automated approval",
+    "type": "Functional Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_038",
+    "requirement_text": "The system shall support return merchandise authorization (RMA) process",
+    "preconditions": [
+      "RMA system is configured",
+      "Return policies are defined",
+      "Customer has eligible orders"
+    ],
+    "test_steps": [
+      "1. Login and navigate to order history",
+      "2. Select eligible order for return",
+      "3. Initiate return request",
+      "4. Select return reason and items",
+      "5. Submit RMA request",
+      "6. Verify automated approval workflow",
+      "7. Check return shipping label generation"
+    ],
+    "expected_result": "Customers can initiate returns with automated approval workflows and return shipping labels",
+    "status": "Active",
+    "created_date": "2025-01-21",
+    "category": "Returns"
+  },
+  {
+    "id": "TC_035",
+    "title": "System Performance Under Normal Load",
+    "description": "Test system response times under typical usage conditions",
+    "type": "Performance Test",
+    "priority": "High",
+    "requirement_id": "REQ_050",
+    "requirement_text": "The system shall respond to user requests within 2 seconds under normal load",
+    "preconditions": [
+      "System is under normal load conditions",
+      "Performance monitoring tools are available",
+      "Baseline metrics are established"
+    ],
+    "test_steps": [
+      "1. Measure homepage load time",
+      "2. Test product page response time",
+      "3. Measure search functionality speed",
+      "4. Test checkout process timing",
+      "5. Measure database query response",
+      "6. Test API endpoint response times",
+      "7. Verify all responses under 2 seconds"
+    ],
+    "expected_result": "Response times are measured from request initiation to complete page rendering within 2 seconds",
+    "status": "Active",
+    "created_date": "2025-01-22",
+    "category": "Performance"
+  },
+  {
+    "id": "TC_036",
+    "title": "Concurrent User Load Testing",
+    "description": "Test system performance with 10,000 concurrent users",
+    "type": "Performance Test",
+    "priority": "High",
+    "requirement_id": "REQ_051",
+    "requirement_text": "The system shall support concurrent users up to 10,000 without performance degradation",
+    "preconditions": [
+      "Load testing tools are configured",
+      "System resources are monitored",
+      "Baseline performance is established"
+    ],
+    "test_steps": [
+      "1. Configure load testing for 10,000 users",
+      "2. Gradually increase concurrent users",
+      "3. Monitor response times during ramp-up",
+      "4. Test peak concurrent load",
+      "5. Monitor system resource utilization",
+      "6. Verify performance consistency",
+      "7. Test system recovery after load"
+    ],
+    "expected_result": "Performance remains consistent during peak traffic periods with up to 10,000 concurrent users",
+    "status": "Active",
+    "created_date": "2025-01-22",
+    "category": "Performance"
+  },
+  {
+    "id": "TC_037",
+    "title": "System Uptime Availability",
+    "description": "Test system availability and uptime requirements",
+    "type": "Reliability Test",
+    "priority": "High",
+    "requirement_id": "REQ_052",
+    "requirement_text": "The system shall maintain 99.9% uptime availability",
+    "preconditions": [
+      "Uptime monitoring is configured",
+      "Maintenance schedules are planned",
+      "Historical uptime data is available"
+    ],
+    "test_steps": [
+      "1. Monitor system availability over time",
+      "2. Track planned maintenance windows",
+      "3. Monitor unplanned downtime events",
+      "4. Calculate uptime percentage",
+      "5. Verify against 99.9% target",
+      "6. Test system recovery procedures",
+      "7. Document availability metrics"
+    ],
+    "expected_result": "Downtime does not exceed 8.76 hours per year excluding scheduled maintenance",
+    "status": "Active",
+    "created_date": "2025-01-22",
+    "category": "Reliability"
+  },
+  {
+    "id": "TC_038",
+    "title": "Database Query Performance",
+    "description": "Test database response times with proper indexing",
+    "type": "Performance Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_053",
+    "requirement_text": "The system shall handle database queries efficiently with proper indexing",
+    "preconditions": [
+      "Database is populated with test data",
+      "Indexing is properly configured",
+      "Query monitoring tools are available"
+    ],
+    "test_steps": [
+      "1. Execute standard product queries",
+      "2. Measure query response times",
+      "3. Test complex search queries",
+      "4. Monitor index usage",
+      "5. Test queries under load",
+      "6. Verify response times under 100ms",
+      "7. Optimize slow queries if needed"
+    ],
+    "expected_result": "Database response times do not exceed 100 milliseconds for standard queries",
+    "status": "Active",
+    "created_date": "2025-01-22",
+    "category": "Performance"
+  },
+  {
+    "id": "TC_039",
+    "title": "Data Encryption Implementation",
+    "description": "Test encryption of sensitive data in transit and at rest",
+    "type": "Security Test", 
+    "priority": "High",
+    "requirement_id": "REQ_054",
+    "requirement_text": "The system shall encrypt all sensitive data in transit and at rest",
+    "preconditions": [
+      "Encryption is configured system-wide",
+      "SSL/TLS certificates are installed",
+      "Database encryption is enabled"
+    ],
+    "test_steps": [
+      "1. Verify HTTPS enforcement",
+      "2. Check TLS version and cipher strength",
+      "3. Test data transmission encryption",
+      "4. Verify database data encryption",
+      "5. Check password hashing methods",
+      "6. Test payment data encryption",
+      "7. Verify 256-bit key strength minimum"
+    ],
+    "expected_result": "Encryption uses industry-standard algorithms with minimum 256-bit key strength for all sensitive data",
+    "status": "Active",
+    "created_date": "2025-01-23",
+    "category": "Security"
+  },
+  {
+    "id": "TC_040",
+    "title": "Web Vulnerability Protection",
+    "description": "Test protection against common web security vulnerabilities",
+    "type": "Security Test",
+    "priority": "High",
+    "requirement_id": "REQ_055",
+    "requirement_text": "The system shall implement protection against common web vulnerabilities",
+    "preconditions": [
+      "Security measures are implemented",
+      "Vulnerability testing tools are available",
+      "OWASP guidelines are followed"
+    ],
+    "test_steps": [
+      "1. Test for SQL injection vulnerabilities",
+      "2. Test for XSS (Cross-Site Scripting)",
+      "3. Test for CSRF (Cross-Site Request Forgery)",
+      "4. Test input validation and sanitization",
+      "5. Test authentication bypass attempts",
+      "6. Check for information disclosure",
+      "7. Verify security headers implementation"
+    ],
+    "expected_result": "Security measures include SQL injection, XSS, CSRF, and other OWASP top 10 protections",
+    "status": "Active",
+    "created_date": "2025-01-23",
+    "category": "Security"
+  },
+  {
+    "id": "TC_041",
+    "title": "Administrative Action Audit Logs",
+    "description": "Test comprehensive logging of all administrative actions",
+    "type": "Security Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_056",
+    "requirement_text": "The system shall maintain audit logs for all administrative actions",
+    "preconditions": [
+      "Audit logging is enabled",
+      "Administrative accounts exist",
+      "Log storage is configured"
+    ],
+    "test_steps": [
+      "1. Perform administrative login",
+      "2. Modify user account settings",
+      "3. Change system configurations",
+      "4. Process refunds or adjustments",
+      "5. Check audit log entries",
+      "6. Verify timestamps and user identification",
+      "7. Test log retention and security"
+    ],
+    "expected_result": "Logs include timestamps, user identification, and detailed action descriptions for all admin activities",
+    "status": "Active",
+    "created_date": "2025-01-23",
+    "category": "Security"
+  },
+  {
+    "id": "TC_042",
+    "title": "Secure Password Policy Implementation",
+    "description": "Test password complexity requirements and secure storage",
+    "type": "Security Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_057",
+    "requirement_text": "The system shall implement secure password policies",
+    "preconditions": [
+      "Password policies are configured",
+      "User registration is functional",
+      "Password hashing is implemented"
+    ],
+    "test_steps": [
+      "1. Test password complexity requirements",
+      "2. Verify minimum length enforcement",
+      "3. Test special character requirements",
+      "4. Check password history restrictions",
+      "5. Verify secure hash storage (no plaintext)",
+      "6. Test password strength indicators",
+      "7. Verify password expiration policies"
+    ],
+    "expected_result": "Passwords meet complexity requirements and are stored using secure hashing algorithms",
+    "status": "Active",
+    "created_date": "2025-01-23",
+    "category": "Security"
+  },
+  {
+    "id": "TC_043",
+    "title": "Intuitive Navigation Testing",
+    "description": "Test user navigation with maximum 3 clicks to any product",
+    "type": "Usability Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_061",
+    "requirement_text": "The system shall provide intuitive navigation with maximum 3 clicks to any product",
+    "preconditions": [
+      "Navigation structure is implemented",
+      "Products are properly categorized",
+      "Search functionality is available"
+    ],
+    "test_steps": [
+      "1. Start from homepage",
+      "2. Navigate to specific product via categories",
+      "3. Count clicks required",
+      "4. Test alternative navigation paths",
+      "5. Use search to find products",
+      "6. Test breadcrumb navigation",
+      "7. Verify maximum 3-click rule"
+    ],
+    "expected_result": "Navigation structure is logical and user-friendly, any product reachable within 3 clicks",
+    "status": "Active",
+    "created_date": "2025-01-24",
+    "category": "Usability"
+  },
+  {
+    "id": "TC_044",
+    "title": "Accessibility Standards Compliance",
+    "description": "Test accessibility features for disabled users",
+    "type": "Accessibility Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_062",
+    "requirement_text": "The system shall support accessibility standards for disabled users",
+    "preconditions": [
+      "Accessibility features are implemented",
+      "Screen reader compatibility is configured",
+      "Keyboard navigation is enabled"
+    ],
+    "test_steps": [
+      "1. Test screen reader compatibility",
+      "2. Navigate using only keyboard",
+      "3. Check alt text for images",
+      "4. Test color contrast ratios",
+      "5. Verify ARIA labels and roles",
+      "6. Test focus indicators",
+      "7. Validate WCAG 2.1 compliance"
+    ],
+    "expected_result": "Interface complies with WCAG 2.1 guidelines for screen readers and keyboard navigation",
+    "status": "Active",
+    "created_date": "2025-01-24",
+    "category": "Accessibility"
+  },
+  {
+    "id": "TC_045",
+    "title": "Error Message Clarity",
+    "description": "Test clear error messages and recovery instructions",
+    "type": "Usability Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_063",
+    "requirement_text": "The system shall provide clear error messages and recovery instructions",
+    "preconditions": [
+      "Error handling is implemented",
+      "Various error scenarios can be triggered",
+      "User guidance messages are configured"
+    ],
+    "test_steps": [
+      "1. Trigger form validation errors",
+      "2. Test payment processing failures",
+      "3. Test network connectivity issues",
+      "4. Create server error scenarios",
+      "5. Verify error message clarity",
+      "6. Check recovery instructions provided",
+      "7. Test error message consistency"
+    ],
+    "expected_result": "Error handling guides users toward successful task completion with clear, actionable messages",
+    "status": "Active",
+    "created_date": "2025-01-24",
+    "category": "Usability"
+  },
+  {
+    "id": "TC_046",
+    "title": "Responsive Design Mobile Testing",
+    "description": "Test responsive design functionality on mobile devices",
+    "type": "Functional Test",
+    "priority": "High",
+    "requirement_id": "REQ_047",
+    "requirement_text": "The system shall provide responsive design for mobile devices",
+    "preconditions": [
+      "Responsive design is implemented",
+      "Multiple device sizes are testable",
+      "Mobile-specific features are available"
+    ],
+    "test_steps": [
+      "1. Test on smartphone screen sizes",
+      "2. Test on tablet screen sizes",
+      "3. Verify touch-friendly interfaces",
+      "4. Test mobile navigation menus",
+      "5. Check form input on mobile",
+      "6. Verify image scaling and optimization",
+      "7. Test mobile payment methods"
+    ],
+    "expected_result": "All functionality is accessible and optimized for smartphones and tablets with touch interfaces",
+    "status": "Active",
+    "created_date": "2025-01-24",
+    "category": "Mobile"
+  },
+  {
+    "id": "TC_047",
+    "title": "Mobile Payment Integration",
+    "description": "Test mobile-specific payment methods like Apple Pay and Google Pay",
+    "type": "Integration Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_048",
+    "requirement_text": "The system shall support mobile-specific payment methods",
+    "preconditions": [
+      "Mobile payment APIs are integrated",
+      "Test environment supports mobile payments",
+      "Mobile wallet test accounts are available"
+    ],
+    "test_steps": [
+      "1. Test Apple Pay integration on iOS",
+      "2. Test Google Pay on Android devices",
+      "3. Verify mobile wallet payment flow",
+      "4. Test biometric authentication",
+      "5. Verify payment confirmation",
+      "6. Test payment failure scenarios",
+      "7. Check mobile payment security"
+    ],
+    "expected_result": "Mobile payments include Apple Pay, Google Pay, and other mobile wallet options with secure processing",
+    "status": "Active",
+    "created_date": "2025-01-24",
+    "category": "Mobile Payment"
+  },
+  {
+    "id": "TC_048",
+    "title": "Mobile Page Load Performance",
+    "description": "Test page loading optimization for mobile networks",
+    "type": "Performance Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_049",
+    "requirement_text": "The system shall optimize page loading for mobile networks",
+    "preconditions": [
+      "Mobile optimization is implemented",
+      "Network simulation tools are available",
+      "Performance monitoring is configured"
+    ],
+    "test_steps": [
+      "1. Simulate 3G network conditions",
+      "2. Measure homepage load time",
+      "3. Test product page loading",
+      "4. Check image compression and lazy loading",
+      "5. Verify JavaScript optimization",
+      "6. Test CSS minification",
+      "7. Ensure all pages load under 3 seconds"
+    ],
+    "expected_result": "Mobile pages load within 3 seconds on 3G connections with optimized content delivery",
+    "status": "Active",
+    "created_date": "2025-01-25",
+    "category": "Mobile Performance"
+  },
+  {
+    "id": "TC_049",
+    "title": "API Documentation and Integration",
+    "description": "Test comprehensive REST API functionality and documentation",
+    "type": "Integration Test",
+    "priority": "Medium",
+    "requirement_id": "REQ_066",
+    "requirement_text": "The system shall support API endpoints for third-party integrations",
+    "preconditions": [
+      "REST API is implemented",
+      "API documentation is available",
+      "Authentication mechanisms are configured"
+    ],
+    "test_steps": [
+      "1. Review API documentation completeness",
+      "2. Test API authentication methods",
+      "3. Test product data retrieval endpoints",
+      "4. Test order management API calls",
+      "5. Verify error handling and status codes",
+      "6. Test rate limiting functionality",
+      "7. Validate response formats and schemas"
+    ],
+    "expected_result": "RESTful APIs are documented and secured with proper authentication mechanisms",
+    "status": "Active",
+    "created_date": "2025-01-25",
+    "category": "API"
+  },
+  {
+    "id": "TC_050",
+    "title": "Data Backup and Recovery Testing",
+    "description": "Test automated backup system and disaster recovery procedures",
+    "type": "Reliability Test",
+    "priority": "High",
+    "requirement_id": "REQ_067",
+    "requirement_text": "The system shall perform automated daily backups of all data",
+    "preconditions": [
+      "Backup system is configured",
+      "Recovery procedures are documented",
+      "Test environment allows backup testing"
+    ],
+    "test_steps": [
+      "1. Verify daily backup schedule execution",
+      "2. Test backup data integrity",
+      "3. Verify secure backup storage",
+      "4. Test backup retention policies",
+      "5. Perform recovery test scenario",
+      "6. Verify recovery time objectives",
+      "7. Test recovery testing procedures"
+    ],
+    "expected_result": "Backups are stored securely with retention policies and recovery testing procedures verified",
+    "status": "Active",
+    "created_date": "2025-01-25",
+    "category": "Backup Recovery"
+  }
+]
