@@ -1,310 +1,443 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartSpec AI - Enhanced Document Understanding</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>SmartSpec AI — Intelligent Test Case Generation</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neo-yellow': '#FBFF48',
+                        'neo-pink': '#FF70A6',
+                        'neo-blue': '#3B82F6',
+                        'neo-green': '#33FF57',
+                        'neo-purple': '#A855F7',
+                        'neo-orange': '#FF9F1C',
+                        'neo-red': '#FF2A2A',
+                        'neo-white': '#FFFDF5',
+                        'neo-black': '#121212',
+                    },
+                    fontFamily: {
+                        'display': ['"Space Grotesk"', 'sans-serif'],
+                        'mono': ['"JetBrains Mono"', 'monospace'],
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0px 0px #000',
+                        'hard-sm': '2px 2px 0px 0px #000',
+                        'hard-lg': '8px 8px 0px 0px #000',
+                        'hard-xl': '12px 12px 0px 0px #000',
+                    }
+                }
+            }
+        }
+    </script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
-<body class="bg-light">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-brain me-2"></i>SmartSpec AI
+
+<body class="text-neo-black font-display antialiased selection:bg-neo-black selection:text-neo-yellow">
+
+    <!-- Custom Cursor -->
+    <div id="cursor" class="w-6 h-6 bg-white rounded-full border-2 border-black hidden lg:block"></div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="fixed top-0 left-0 h-2 bg-neo-green z-[60] border-b-2 border-black" id="progressBar" style="width: 0%">
+    </div>
+
+    <!-- Loading Overlay (replaces Bootstrap modal) -->
+    <div id="loadingOverlay" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-neo-black/80"></div>
+        <div class="relative bg-neo-white border-4 border-black p-12 shadow-hard-xl text-center max-w-md">
+            <div class="loading-spinner mx-auto mb-6"></div>
+            <h5 id="loading-text" class="text-2xl font-black uppercase tracking-tight">Processing...</h5>
+            <p class="font-mono text-sm text-gray-500 mt-2">Please wait</p>
+        </div>
+    </div>
+
+    <!-- ═══════════════ NAVIGATION ═══════════════ -->
+    <nav class="fixed top-2 w-full z-50 px-4 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#"
+                class="bg-neo-yellow border-4 border-black px-5 py-2 text-2xl font-black shadow-hard hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all cursor-hover flex items-center gap-2">
+                <i class="ri-brain-line"></i>
+                SMARTSPEC<span class="text-neo-purple">.AI</span>
             </a>
-            <span class="navbar-text">
-                Intelligent Test Case Generation & Validation
-            </span>
+
+            <!-- Menu -->
+            <div class="hidden md:flex gap-1 bg-white border-4 border-black p-2 shadow-hard">
+                <a href="#upload"
+                    class="px-4 py-2 font-mono font-bold text-sm hover:bg-neo-black hover:text-white transition-colors cursor-hover">/UPLOAD</a>
+                <a href="#generate"
+                    class="px-4 py-2 font-mono font-bold text-sm hover:bg-neo-black hover:text-white transition-colors cursor-hover">/GENERATE</a>
+                <a href="#results"
+                    class="px-4 py-2 font-mono font-bold text-sm hover:bg-neo-black hover:text-white transition-colors cursor-hover">/RESULTS</a>
+            </div>
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <!-- Header Section -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <h1 class="display-4 text-primary mb-3">SmartSpec AI</h1>
-                        <p class="lead text-muted">Upload SRS documents, generate test cases, and ensure complete requirement coverage with AI-powered validation and traceability</p>
-                    </div>
-                </div>
-            </div>
+    <!-- ═══════════════ HERO SECTION ═══════════════ -->
+    <section
+        class="min-h-[70vh] flex flex-col justify-center items-center px-4 pt-28 pb-12 relative overflow-hidden border-b-4 border-black">
+        <!-- Floating shapes -->
+        <div
+            class="absolute top-1/4 left-[8%] w-12 h-12 bg-neo-blue border-4 border-black shadow-hard animate-bounce rotate-12 hidden md:block">
+        </div>
+        <div
+            class="absolute top-1/3 right-[10%] w-16 h-16 bg-neo-pink border-4 border-black shadow-hard animate-pulse -rotate-6 hidden md:block">
+        </div>
+        <div
+            class="absolute bottom-[20%] left-[15%] w-10 h-10 bg-neo-green border-4 border-black shadow-hard-sm animate-bounce rotate-45 hidden md:block">
+        </div>
+        <div
+            class="absolute bottom-[25%] right-[8%] w-14 h-14 bg-neo-yellow border-4 border-black shadow-hard animate-pulse rotate-3 hidden md:block">
         </div>
 
-        <!-- Upload Section -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="mb-0"><i class="fas fa-file-upload me-2"></i>Upload SRS Document</h5>
+        <div class="relative z-10 text-center max-w-5xl reveal">
+            <div
+                class="inline-block bg-neo-green text-black px-4 py-2 font-mono text-sm border-2 border-black mb-6 rotate-[-1deg]">
+                🤖 AI-POWERED /// FULLY OFFLINE
+            </div>
+            <h1 class="text-[12vw] md:text-[8vw] leading-[0.85] font-black uppercase tracking-tighter mb-6">
+                SMART<br>
+                <span class="neo-text-stroke">SPEC AI</span>
+            </h1>
+            <p class="font-mono text-lg md:text-xl max-w-2xl mx-auto mb-8 opacity-80">
+                Upload SRS documents → Generate test cases → Validate & trace requirements — all powered by local AI
+            </p>
+            <a href="#upload"
+                class="inline-block bg-neo-black text-white border-4 border-black px-10 py-5 text-xl font-black uppercase shadow-hard hover:bg-neo-green hover:text-black hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover">
+                GET STARTED <i class="ri-arrow-right-up-line"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- ═══════════════ MARQUEE BANNER ═══════════════ -->
+    <div class="marquee-container bg-neo-black text-neo-green font-mono font-bold text-lg border-y-4 border-black py-3">
+        <div class="marquee-content">
+            <span class="mx-8">/// TEST CASE GENERATION</span>
+            <span class="mx-8">/// SEMANTIC SEARCH</span>
+            <span class="mx-8">/// REQUIREMENT MAPPING</span>
+            <span class="mx-8">/// TRACEABILITY MATRIX</span>
+            <span class="mx-8">/// PDF EXPORT</span>
+            <span class="mx-8">/// VALIDATION ENGINE</span>
+            <span class="mx-8">/// OFFLINE AI</span>
+            <span class="mx-8">/// TEST CASE GENERATION</span>
+            <span class="mx-8">/// SEMANTIC SEARCH</span>
+            <span class="mx-8">/// REQUIREMENT MAPPING</span>
+            <span class="mx-8">/// TRACEABILITY MATRIX</span>
+            <span class="mx-8">/// PDF EXPORT</span>
+            <span class="mx-8">/// VALIDATION ENGINE</span>
+            <span class="mx-8">/// OFFLINE AI</span>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 py-12">
+
+        <!-- ═══════════════ UPLOAD SECTION ═══════════════ -->
+        <section id="upload" class="mb-16 reveal">
+            <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-8">
+                UPLOAD<span class="text-neo-blue">_DOCS</span>
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- SRS Upload -->
+                <div class="bg-white border-4 border-black shadow-hard hover:shadow-hard-lg transition-all">
+                    <div class="bg-neo-blue text-white border-b-4 border-black px-6 py-4">
+                        <h5 class="text-xl font-black uppercase flex items-center gap-2">
+                            <i class="ri-file-upload-line"></i> UPLOAD SRS DOCUMENT
+                        </h5>
                     </div>
-                    <div class="card-body">
-                        <div class="upload-area border-dashed p-4 text-center" id="srs-upload-area">
-                            <i class="fas fa-file-pdf fa-3x text-info mb-3"></i>
-                            <h6>Drop SRS document here or click to browse</h6>
-                            <p class="text-muted small">Supports PDF, DOCX, TXT files</p>
-                            <button class="btn btn-info" id="srs-upload-btn">
-                                <i class="fas fa-cloud-upload-alt me-2"></i>Select SRS File
+                    <div class="p-6">
+                        <div class="upload-area border-4 border-dashed border-gray-400 p-8 text-center hover:border-neo-blue transition-colors"
+                            id="srs-upload-area">
+                            <i class="ri-file-pdf-2-line text-6xl text-neo-blue mb-4 block"></i>
+                            <h6 class="text-xl font-black uppercase mb-2">Drop SRS here</h6>
+                            <p class="font-mono text-sm text-gray-500 mb-4">Supports PDF, DOCX, TXT files</p>
+                            <button
+                                class="bg-neo-blue text-white border-2 border-black px-6 py-3 font-bold shadow-hard-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-hover"
+                                id="srs-upload-btn">
+                                <i class="ri-upload-cloud-2-line mr-2"></i>SELECT FILE
                             </button>
-                            <input type="file" id="srs-file-input" class="d-none" accept=".pdf,.docx,.txt">
-                            <div id="srs-upload-status" class="mt-3"></div>
+                            <input type="file" id="srs-file-input" class="hidden" accept=".pdf,.docx,.txt">
+                            <div id="srs-upload-status" class="mt-4"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-header bg-secondary text-white">
-                        <h5 class="mb-0"><i class="fas fa-vial me-2"></i>Upload Existing Test Cases (Optional)</h5>
+
+                <!-- Test Cases Upload -->
+                <div class="bg-white border-4 border-black shadow-hard hover:shadow-hard-lg transition-all">
+                    <div class="bg-neo-purple text-white border-b-4 border-black px-6 py-4">
+                        <h5 class="text-xl font-black uppercase flex items-center gap-2">
+                            <i class="ri-flask-line"></i> UPLOAD TEST CASES (Optional)
+                        </h5>
                     </div>
-                    <div class="card-body">
-                        <div class="upload-area border-dashed p-4 text-center" id="tc-upload-area">
-                            <i class="fas fa-file-code fa-3x text-secondary mb-3"></i>
-                            <h6>Drop test cases file here or click to browse</h6>
-                            <p class="text-muted small">Supports JSON format</p>
-                            <button class="btn btn-secondary" id="tc-upload-btn">
-                                <i class="fas fa-cloud-upload-alt me-2"></i>Select Test Cases File
+                    <div class="p-6">
+                        <div class="upload-area border-4 border-dashed border-gray-400 p-8 text-center hover:border-neo-purple transition-colors"
+                            id="tc-upload-area">
+                            <i class="ri-code-box-line text-6xl text-neo-purple mb-4 block"></i>
+                            <h6 class="text-xl font-black uppercase mb-2">Drop test cases here</h6>
+                            <p class="font-mono text-sm text-gray-500 mb-4">Supports JSON format</p>
+                            <button
+                                class="bg-neo-purple text-white border-2 border-black px-6 py-3 font-bold shadow-hard-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-hover"
+                                id="tc-upload-btn">
+                                <i class="ri-upload-cloud-2-line mr-2"></i>SELECT FILE
                             </button>
-                            <input type="file" id="tc-file-input" class="d-none" accept=".json">
-                            <div id="tc-upload-status" class="mt-3"></div>
+                            <input type="file" id="tc-file-input" class="hidden" accept=".json">
+                            <div id="tc-upload-status" class="mt-4"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Processing Status -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-cogs me-2"></i>Processing Status</h5>
+        <!-- ═══════════════ PROCESSING STATUS ═══════════════ -->
+        <section class="mb-16 reveal">
+            <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-8">
+                STATUS<span class="text-neo-green">_PIPELINE</span>
+            </h2>
+
+            <div class="bg-white border-4 border-black shadow-hard p-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Step 1 -->
+                    <div class="process-step border-2 border-gray-300 p-4 text-center transition-all" id="step-upload">
+                        <div
+                            class="step-icon w-14 h-14 bg-gray-400 border-2 border-black mx-auto mb-3 flex items-center justify-center text-white text-xl">
+                            <i class="ri-upload-2-line"></i>
+                        </div>
+                        <div class="step-content">
+                            <h6 class="font-black uppercase text-sm">Upload</h6>
+                            <small class="font-mono text-xs text-gray-500">Upload SRS document</small>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-6 mb-3">
-                                <div class="process-step" id="step-upload">
-                                    <div class="step-icon bg-secondary">
-                                        <i class="fas fa-upload"></i>
-                                    </div>
-                                    <div class="step-content">
-                                        <h6>Document Upload</h6>
-                                        <small class="text-muted">Upload SRS document</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 mb-3">
-                                <div class="process-step" id="step-extract">
-                                    <div class="step-icon bg-secondary">
-                                        <i class="fas fa-file-alt"></i>
-                                    </div>
-                                    <div class="step-content">
-                                        <h6>Text Extraction</h6>
-                                        <small class="text-muted">Extract and clean text</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 mb-3">
-                                <div class="process-step" id="step-analyze">
-                                    <div class="step-icon bg-secondary">
-                                        <i class="fas fa-brain"></i>
-                                    </div>
-                                    <div class="step-content">
-                                        <h6>Semantic Analysis</h6>
-                                        <small class="text-muted">Build semantic index</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 mb-3">
-                                <div class="process-step" id="step-ready">
-                                    <div class="step-icon bg-secondary">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <div class="step-content">
-                                        <h6>Ready</h6>
-                                        <small class="text-muted">System ready for queries</small>
-                                    </div>
-                                </div>
-                            </div>
+
+                    <!-- Step 2 -->
+                    <div class="process-step border-2 border-gray-300 p-4 text-center transition-all" id="step-extract">
+                        <div
+                            class="step-icon w-14 h-14 bg-gray-400 border-2 border-black mx-auto mb-3 flex items-center justify-center text-white text-xl">
+                            <i class="ri-file-text-line"></i>
+                        </div>
+                        <div class="step-content">
+                            <h6 class="font-black uppercase text-sm">Extract</h6>
+                            <small class="font-mono text-xs text-gray-500">Extract and clean text</small>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="process-step border-2 border-gray-300 p-4 text-center transition-all" id="step-analyze">
+                        <div
+                            class="step-icon w-14 h-14 bg-gray-400 border-2 border-black mx-auto mb-3 flex items-center justify-center text-white text-xl">
+                            <i class="ri-brain-line"></i>
+                        </div>
+                        <div class="step-content">
+                            <h6 class="font-black uppercase text-sm">Analyze</h6>
+                            <small class="font-mono text-xs text-gray-500">Build semantic index</small>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="process-step border-2 border-gray-300 p-4 text-center transition-all" id="step-ready">
+                        <div
+                            class="step-icon w-14 h-14 bg-gray-400 border-2 border-black mx-auto mb-3 flex items-center justify-center text-white text-xl">
+                            <i class="ri-check-line"></i>
+                        </div>
+                        <div class="step-content">
+                            <h6 class="font-black uppercase text-sm">Ready</h6>
+                            <small class="font-mono text-xs text-gray-500">System ready for queries</small>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Query Section -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-search me-2"></i>Generate Test Cases</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-control-lg" 
-                                           id="query-input" 
-                                           placeholder="Enter your query (e.g., Generate test cases for user authentication)">
-                                    <button class="btn btn-primary btn-lg" id="query-btn">
-                                        <i class="fas fa-magic me-2"></i>Generate
-                                    </button>
-                                </div>
-                                <div id="query-status" class="mt-2"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="d-grid gap-2">
-                                    <button class="btn btn-success" id="validate-btn" disabled>
-                                        <i class="fas fa-check-circle me-2"></i>Validate Test Cases
-                                    </button>
-                                    <button class="btn btn-warning" id="map-btn" disabled>
-                                        <i class="fas fa-project-diagram me-2"></i>Map to Requirements
-                                    </button>
-                                </div>
-                            </div>
+        <!-- ═══════════════ GENERATE SECTION ═══════════════ -->
+        <section id="generate" class="mb-16 reveal">
+            <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-8">
+                GENERATE<span class="text-neo-pink">_TESTS</span>
+            </h2>
+
+            <div class="bg-white border-4 border-black shadow-hard p-6">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <div class="flex">
+                            <input type="text"
+                                class="flex-1 border-4 border-black border-r-0 px-6 py-4 text-lg font-mono focus:outline-none focus:border-neo-pink bg-neo-white placeholder:text-gray-400"
+                                id="query-input" placeholder="e.g., Generate test cases for user authentication">
+                            <button
+                                class="bg-neo-pink text-white border-4 border-black px-8 py-4 font-black uppercase text-lg shadow-hard hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all cursor-hover whitespace-nowrap"
+                                id="query-btn">
+                                <i class="ri-magic-line mr-2"></i>GENERATE
+                            </button>
                         </div>
+                        <div id="query-status" class="mt-3"></div>
+                    </div>
+                    <div class="flex flex-col gap-3 md:min-w-[200px]">
+                        <button
+                            class="bg-neo-green text-black border-2 border-black px-6 py-3 font-bold shadow-hard-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-hover disabled:opacity-40 disabled:cursor-not-allowed"
+                            id="validate-btn" disabled>
+                            <i class="ri-checkbox-circle-line mr-1"></i>VALIDATE
+                        </button>
+                        <button
+                            class="bg-neo-orange text-black border-2 border-black px-6 py-3 font-bold shadow-hard-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-hover disabled:opacity-40 disabled:cursor-not-allowed"
+                            id="map-btn" disabled>
+                            <i class="ri-git-branch-line mr-1"></i>MAP REQS
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Actions Panel -->
-        <div class="row mb-4" id="actions-panel" style="display: none;">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-tools me-2"></i>Advanced Actions</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <button class="btn btn-info w-100 mb-2" id="traceability-btn">
-                                    <i class="fas fa-table me-2"></i>Generate Traceability Matrix
-                                </button>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle w-100 mb-2" type="button" 
-                                            id="export-dropdown" data-bs-toggle="dropdown">
-                                        <i class="fas fa-download me-2"></i>Export Reports
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#" id="export-testcases-pdf">
-                                            <i class="fas fa-file-pdf me-2"></i>Test Cases (PDF)
-                                        </a></li>
-                                        <li><a class="dropdown-item" href="#" id="export-validation-pdf">
-                                            <i class="fas fa-file-alt me-2"></i>Validation Report (PDF)
-                                        </a></li>
-                                        <li><a class="dropdown-item" href="#" id="export-traceability-pdf">
-                                            <i class="fas fa-table me-2"></i>Traceability Matrix (PDF)
-                                        </a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="#" id="export-traceability-excel">
-                                            <i class="fas fa-file-excel me-2"></i>Traceability Matrix (Excel)
-                                        </a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <button class="btn btn-outline-secondary w-100 mb-2" id="clear-btn">
-                                    <i class="fas fa-trash me-2"></i>Clear All Data
-                                </button>
-                            </div>
+        <!-- ═══════════════ ACTIONS PANEL ═══════════════ -->
+        <section id="actions-panel" class="mb-16 hidden reveal">
+            <div class="bg-white border-4 border-black shadow-hard p-6">
+                <h5 class="text-2xl font-black uppercase mb-4 flex items-center gap-2">
+                    <i class="ri-tools-line"></i> ADVANCED_ACTIONS
+                </h5>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <button
+                        class="bg-neo-blue text-white border-2 border-black px-6 py-4 font-bold shadow-hard-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-hover"
+                        id="traceability-btn">
+                        <i class="ri-table-line mr-2"></i>TRACEABILITY MATRIX
+                    </button>
+
+                    <div class="relative group">
+                        <button
+                            class="w-full bg-neo-black text-white border-2 border-black px-6 py-4 font-bold shadow-hard-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-hover"
+                            id="export-dropdown-btn">
+                            <i class="ri-download-line mr-2"></i>EXPORT REPORTS ▾
+                        </button>
+                        <div
+                            class="export-dropdown absolute top-full left-0 w-full bg-white border-4 border-black border-t-0 shadow-hard-lg z-40 hidden">
+                            <a href="#"
+                                class="block px-4 py-3 font-mono text-sm font-bold hover:bg-neo-yellow transition-colors border-b-2 border-black cursor-hover"
+                                id="export-testcases-pdf">
+                                <i class="ri-file-pdf-line mr-2"></i>Test Cases (PDF)
+                            </a>
+                            <a href="#"
+                                class="block px-4 py-3 font-mono text-sm font-bold hover:bg-neo-yellow transition-colors border-b-2 border-black cursor-hover"
+                                id="export-validation-pdf">
+                                <i class="ri-file-list-3-line mr-2"></i>Validation Report (PDF)
+                            </a>
+                            <a href="#"
+                                class="block px-4 py-3 font-mono text-sm font-bold hover:bg-neo-yellow transition-colors border-b-2 border-black cursor-hover"
+                                id="export-traceability-pdf">
+                                <i class="ri-table-line mr-2"></i>Traceability Matrix (PDF)
+                            </a>
+                            <a href="#"
+                                class="block px-4 py-3 font-mono text-sm font-bold hover:bg-neo-green transition-colors cursor-hover"
+                                id="export-traceability-excel">
+                                <i class="ri-file-excel-line mr-2"></i>Traceability Matrix (Excel)
+                            </a>
                         </div>
                     </div>
+
+                    <button
+                        class="bg-neo-white text-black border-2 border-black px-6 py-4 font-bold shadow-hard-sm hover:bg-neo-red hover:text-white hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all cursor-hover"
+                        id="clear-btn">
+                        <i class="ri-delete-bin-line mr-2"></i>CLEAR ALL DATA
+                    </button>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Results Section -->
-        <div id="results-section" style="display: none;">
+        <!-- ═══════════════ RESULTS SECTION ═══════════════ -->
+        <div id="results-section" class="hidden">
+
             <!-- Test Cases Results -->
-            <div class="row mb-4" id="test-cases-section">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0"><i class="fas fa-vials me-2"></i>Generated Test Cases</h5>
-                            <span class="badge bg-primary" id="test-cases-count">0</span>
-                        </div>
-                        <div class="card-body">
-                            <div id="test-cases-container"></div>
-                        </div>
+            <section id="test-cases-section" class="mb-16 reveal">
+                <div class="bg-white border-4 border-black shadow-hard">
+                    <div class="border-b-4 border-black px-6 py-4 flex justify-between items-center">
+                        <h5 class="text-2xl font-black uppercase flex items-center gap-2">
+                            <i class="ri-test-tube-line"></i> GENERATED TEST CASES
+                        </h5>
+                        <span class="bg-neo-blue text-white border-2 border-black px-3 py-1 font-mono font-bold"
+                            id="test-cases-count">0</span>
                     </div>
+                    <div class="p-6" id="test-cases-container"></div>
                 </div>
-            </div>
+            </section>
 
             <!-- Validation Results -->
-            <div class="row mb-4" id="validation-section" style="display: none;">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-check-double me-2"></i>Validation Results</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="validation-summary" class="mb-3"></div>
-                            <div id="validation-details"></div>
-                        </div>
+            <section id="validation-section" class="mb-16 hidden reveal">
+                <div class="bg-white border-4 border-black shadow-hard">
+                    <div class="border-b-4 border-black px-6 py-4">
+                        <h5 class="text-2xl font-black uppercase flex items-center gap-2">
+                            <i class="ri-checkbox-multiple-line"></i> VALIDATION RESULTS
+                        </h5>
+                    </div>
+                    <div class="p-6">
+                        <div id="validation-summary" class="mb-4"></div>
+                        <div id="validation-details"></div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Mapping Results -->
-            <div class="row mb-4" id="mapping-section" style="display: none;">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-sitemap me-2"></i>Requirement Mapping Results</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="mapping-summary" class="mb-3"></div>
-                            <div id="mapping-details"></div>
-                        </div>
+            <section id="mapping-section" class="mb-16 hidden reveal">
+                <div class="bg-white border-4 border-black shadow-hard">
+                    <div class="border-b-4 border-black px-6 py-4">
+                        <h5 class="text-2xl font-black uppercase flex items-center gap-2">
+                            <i class="ri-mind-map"></i> REQUIREMENT MAPPING
+                        </h5>
+                    </div>
+                    <div class="p-6">
+                        <div id="mapping-summary" class="mb-4"></div>
+                        <div id="mapping-details"></div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Traceability Matrix -->
-            <div class="row mb-4" id="traceability-section" style="display: none;">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-table me-2"></i>Traceability Matrix</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="traceability-summary" class="mb-3"></div>
-                            <div id="traceability-matrix" class="table-responsive"></div>
-                        </div>
+            <section id="traceability-section" class="mb-16 hidden reveal">
+                <div class="bg-white border-4 border-black shadow-hard">
+                    <div class="border-b-4 border-black px-6 py-4">
+                        <h5 class="text-2xl font-black uppercase flex items-center gap-2">
+                            <i class="ri-table-line"></i> TRACEABILITY MATRIX
+                        </h5>
+                    </div>
+                    <div class="p-6">
+                        <div id="traceability-summary" class="mb-4"></div>
+                        <div id="traceability-matrix" class="overflow-x-auto"></div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
+
     </div>
 
-    <!-- Loading Modal -->
-    <div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body text-center py-4">
-                    <div class="spinner-border text-primary mb-3" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <h5 id="loading-text">Processing...</h5>
-                </div>
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer class="bg-neo-black text-white border-t-4 border-black py-8">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="font-black text-2xl">
+                SMARTSPEC<span class="text-neo-green">.AI</span>
+            </div>
+            <div class="font-mono text-sm text-gray-400">
+                Built with <span class="text-neo-pink">♥</span> /// Fully Offline /// Transformer-Powered
             </div>
         </div>
-    </div>
+    </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="/static/js/app.js"></script>
 </body>
+
 </html>
